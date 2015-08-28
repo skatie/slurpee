@@ -1,0 +1,206 @@
+--- Initial Local Setup ---
+
+### Create Local Remote Respository ###
+~/Sites git clone https://github.com/skatie/slurpee.git slurpee
+
+--- Create New File --- [ Basic Git Flow ]
+
+### Update Local Repository ###
+~/Sites/slurpee ‹master› $ git pull
+  Already up-to-date.
+
+### Add File Locally ###
+~/Sites/slurpee ‹master› $ vim .gitignore
+  1 *.pem
+
+### Check Local Repository Status ###
+~/Sites/slurpee ‹master*› $ git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
+      .gitignore
+  no changes added to commit (use "git add" and/or "git commit -a")
+
+### Add Changed File to Commit List ###
+~/Sites/slurpee ‹master*› $ git add .gitignore
+
+### Verify Commit List for Local Repository ###
+~/Sites/slurpee ‹master*› $ git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
+
+      modified:   .gitignore
+
+### Commit Changes to Local Repository ###
+~/Sites/slurpee ‹master*› $ git commit
+  Added git ignore file to ignore pem files.
+
+  [master 96e09ec] Added git ignore file to ignore pem files.
+   1 file changed, 1 insertion(+)
+   create mode 100644 .gitignore
+
+### Verify Commit to Local Repository ###
+~/Sites/slurpee ‹master› $ git status
+  On branch master
+  Your branch is ahead of 'origin/master' by 1 commit.
+    (use "git push" to publish your local commits)
+
+  nothing to commit, working directory clean
+
+### Update Remote Repository with Local Changes ###
+~/Sites/slurpee ‹master› $ git push
+  Username for 'https://github.com': skatie
+  Password for 'https://skatie@github.com': ********
+  Counting objects: 4, done.
+  Delta compression using up to 4 threads.
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (3/3), 339 bytes | 0 bytes/s, done.
+  Total 3 (delta 0), reused 0 (delta 0)
+  To https://github.com/skatie/slurpee.git
+     96e09ec..c6118a1  master -> master
+
+--- Review Commit Log ---
+
+### Update Local Repository with Remote Changes ###
+~/Sites/slurpee ‹master› $ git pull
+  remote: Counting objects: 3, done.
+  remote: Compressing objects: 100% (2/2), done.
+  remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+  Unpacking objects: 100% (3/3), done.
+  From https://github.com/skatie/slurpee
+     c6118a1..8973e80  master     -> origin/master
+  Updating c6118a1..8973e80
+  Fast-forward
+   .gitignore | 1 +
+   1 file changed, 1 insertion(+)
+
+### Review Commit Log ###
+~/Sites/slurpee ‹master› $ git log
+  commit 8973e80069897c8f50fd0512ddf1b42d44206913
+  Author: skatie <masucci.katie@gmail.com>
+  Date:   Thu Aug 27 23:42:54 2015 -0500
+
+      Added id_rsa to git ignore
+
+  commit 96e09ecdacb29680a14c1165f2b9b5db87f6f6ab
+  Author: Joe McMaster <jmcmaster@2dialog.com>
+  Date:   Thu Aug 27 23:26:50 2015 -0500
+
+      Added git ignore file to ignore pem files.
+
+### Show Remote Change ###
+~/Sites/slurpee ‹master› $ git show 8973e80069897c8f50fd0512ddf1b42d44206913
+  commit 8973e80069897c8f50fd0512ddf1b42d44206913
+  Author: skatie <masucci.katie@gmail.com>
+  Date:   Thu Aug 27 23:42:54 2015 -0500
+
+      Added id_rsa to git ignore
+
+  diff --git a/.gitignore b/.gitignore
+  index cfaad76..ce7b66d 100644
+  --- a/.gitignore
+  +++ b/.gitignore
+  @@ -1 +1,2 @@
+   *.pem
+  +id_rsa
+
+--- Discard Edit of Existing File ---
+
+### Edit File Locally ###
+~/Sites/slurpee ‹master› $ vim .gitignore
+  1 *.pem
+  2 id_rsa
+  3 line you just added
+
+### View Differences ###
+~/Sites/slurpee ‹master*› $ git diff .gitignore
+  diff --git a/.gitignore b/.gitignore
+  index ce7b66d..eb058a1 100644
+  --- a/.gitignore
+  +++ b/.gitignore
+  @@ -1,2 +1,3 @@
+   *.pem
+   id_rsa
+  +line you just added
+
+### Discard Changes ###
+~/Sites/slurpee ‹master*› $ git checkout .gitignore
+
+### Show Local Repository Status ###
+~/Sites/slurpee ‹master› $ git status
+  git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  nothing to commit, working directory clean
+
+
+--- Remove File from Commit List ---
+
+### Edit File Locally ###
+~/Sites/slurpee ‹master› $ vim .gitignore
+  1 *.pem
+  2 id_rsa
+  3 line you just added
+
+### Add Changed File to Commit List ###
+~/Sites/slurpee ‹master*› $ git add .gitignore
+
+### Review Commit List ###
+~/Sites/slurpee ‹master*› $ git status
+  git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  Changes to be committed:
+    (use "git reset HEAD <file>..." to unstage)
+
+          modified:   .gitignore
+
+### Remove File from Commit List ###
+~/Sites/slurpee ‹master*› $ git reset HEAD .gitignore
+  Unstaged changes after reset:
+  M       .gitignore
+
+### Review Local Repository Status ###
+~/Sites/slurpee ‹master*› $ git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+
+          modified:   .gitignore
+
+
+--- Rename Git Tracked File ---
+
+### Review Local Repository Status ###
+~/Sites/slurpee ‹master› $ git mv example.html index.html
+
+
+--- Delete Git Tracked File ---
+
+### Review Local Repository Status ###
+~/Sites/slurpee ‹master› $ git rm index.html
+
+### Review Local Repository Status ###
+~/Sites/slurpee ‹master*› $ git status
+  On branch master
+  Your branch is up-to-date with 'origin/master'.
+
+  Changes not staged for commit:
+    (use "git add/rm <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+
+          deleted:    index.html
