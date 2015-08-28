@@ -1,20 +1,24 @@
 --- Initial Local Setup ---
 
+### Navigate to Workspace ###
+@local:~$ cd ~/Sites
+
 ### Create Local Remote Respository ###
-~/Sites git clone https://github.com/skatie/slurpee.git slurpee
+@local:~/Sites$ git clone https://github.com/skatie/slurpee.git slurpee-skate-project
+
 
 --- Create New File --- [ Basic Git Flow ]
 
 ### Update Local Repository ###
-~/Sites/slurpee ‹master› $ git pull
+@local:~/Sites/slurpee-skate-project ‹master› $ git pull
   Already up-to-date.
 
 ### Add File Locally ###
-~/Sites/slurpee ‹master› $ vim .gitignore
+@local:~/Sites/slurpee-skate-project ‹master› $ vim .gitignore
   1 *.pem
 
 ### Check Local Repository Status ###
-~/Sites/slurpee ‹master*› $ git status
+@local:~/Sites/slurpee-skate-project ‹master*› $ git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
 
@@ -28,10 +32,10 @@
   no changes added to commit (use "git add" and/or "git commit -a")
 
 ### Add Changed File to Commit List ###
-~/Sites/slurpee ‹master*› $ git add .gitignore
+@local:~/Sites/slurpee-skate-project ‹master*› $ git add .gitignore
 
 ### Verify Commit List for Local Repository ###
-~/Sites/slurpee ‹master*› $ git status
+@local:~/Sites/slurpee-skate-project ‹master*› $ git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
 
@@ -41,7 +45,7 @@
       modified:   .gitignore
 
 ### Commit Changes to Local Repository ###
-~/Sites/slurpee ‹master*› $ git commit
+@local:~/Sites/slurpee-skate-project ‹master*› $ git commit
   Added git ignore file to ignore pem files.
 
   [master 96e09ec] Added git ignore file to ignore pem files.
@@ -49,7 +53,7 @@
    create mode 100644 .gitignore
 
 ### Verify Commit to Local Repository ###
-~/Sites/slurpee ‹master› $ git status
+@local:~/Sites/slurpee-skate-project ‹master› $ git status
   On branch master
   Your branch is ahead of 'origin/master' by 1 commit.
     (use "git push" to publish your local commits)
@@ -57,7 +61,7 @@
   nothing to commit, working directory clean
 
 ### Update Remote Repository with Local Changes ###
-~/Sites/slurpee ‹master› $ git push
+@local:~/Sites/slurpee-skate-project ‹master› $ git push
   Username for 'https://github.com': skatie
   Password for 'https://skatie@github.com': ********
   Counting objects: 4, done.
@@ -65,18 +69,19 @@
   Compressing objects: 100% (2/2), done.
   Writing objects: 100% (3/3), 339 bytes | 0 bytes/s, done.
   Total 3 (delta 0), reused 0 (delta 0)
-  To https://github.com/skatie/slurpee.git
+  To https://github.com/skatie/slurpee-skate-project.git
      96e09ec..c6118a1  master -> master
+
 
 --- Review Commit Log ---
 
 ### Update Local Repository with Remote Changes ###
-~/Sites/slurpee ‹master› $ git pull
+@local:~/Sites/slurpee-skate-project ‹master› $ git pull
   remote: Counting objects: 3, done.
   remote: Compressing objects: 100% (2/2), done.
   remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
   Unpacking objects: 100% (3/3), done.
-  From https://github.com/skatie/slurpee
+  From https://github.com/skatie/slurpee-skate-project
      c6118a1..8973e80  master     -> origin/master
   Updating c6118a1..8973e80
   Fast-forward
@@ -84,7 +89,7 @@
    1 file changed, 1 insertion(+)
 
 ### Review Commit Log ###
-~/Sites/slurpee ‹master› $ git log
+@local:~/Sites/slurpee-skate-project ‹master› $ git log
   commit 8973e80069897c8f50fd0512ddf1b42d44206913
   Author: skatie <masucci.katie@gmail.com>
   Date:   Thu Aug 27 23:42:54 2015 -0500
@@ -98,7 +103,7 @@
       Added git ignore file to ignore pem files.
 
 ### Show Remote Change ###
-~/Sites/slurpee ‹master› $ git show 8973e80069897c8f50fd0512ddf1b42d44206913
+@local:~/Sites/slurpee-skate-project ‹master› $ git show 8973e80069897c8f50fd0512ddf1b42d44206913
   commit 8973e80069897c8f50fd0512ddf1b42d44206913
   Author: skatie <masucci.katie@gmail.com>
   Date:   Thu Aug 27 23:42:54 2015 -0500
@@ -113,16 +118,17 @@
    *.pem
   +id_rsa
 
+
 --- Discard Edit of Existing File ---
 
 ### Edit File Locally ###
-~/Sites/slurpee ‹master› $ vim .gitignore
+@local:~/Sites/slurpee-skate-project ‹master› $ vim .gitignore
   1 *.pem
   2 id_rsa
   3 line you just added
 
 ### View Differences ###
-~/Sites/slurpee ‹master*› $ git diff .gitignore
+@local:~/Sites/slurpee-skate-project ‹master*› $ git diff .gitignore
   diff --git a/.gitignore b/.gitignore
   index ce7b66d..eb058a1 100644
   --- a/.gitignore
@@ -133,10 +139,10 @@
   +line you just added
 
 ### Discard Changes ###
-~/Sites/slurpee ‹master*› $ git checkout .gitignore
+@local:~/Sites/slurpee-skate-project ‹master*› $ git checkout .gitignore
 
 ### Show Local Repository Status ###
-~/Sites/slurpee ‹master› $ git status
+@local:~/Sites/slurpee-skate-project ‹master› $ git status
   git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
@@ -147,16 +153,16 @@
 --- Remove File from Commit List ---
 
 ### Edit File Locally ###
-~/Sites/slurpee ‹master› $ vim .gitignore
+@local:~/Sites/slurpee-skate-project ‹master› $ vim .gitignore
   1 *.pem
   2 id_rsa
   3 line you just added
 
 ### Add Changed File to Commit List ###
-~/Sites/slurpee ‹master*› $ git add .gitignore
+@local:~/Sites/slurpee-skate-project ‹master*› $ git add .gitignore
 
 ### Review Commit List ###
-~/Sites/slurpee ‹master*› $ git status
+@local:~/Sites/slurpee-skate-project ‹master*› $ git status
   git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
@@ -167,12 +173,12 @@
           modified:   .gitignore
 
 ### Remove File from Commit List ###
-~/Sites/slurpee ‹master*› $ git reset HEAD .gitignore
+@local:~/Sites/slurpee-skate-project ‹master*› $ git reset HEAD .gitignore
   Unstaged changes after reset:
   M       .gitignore
 
 ### Review Local Repository Status ###
-~/Sites/slurpee ‹master*› $ git status
+@local:~/Sites/slurpee-skate-project ‹master*› $ git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
 
@@ -186,16 +192,16 @@
 --- Rename Git Tracked File ---
 
 ### Review Local Repository Status ###
-~/Sites/slurpee ‹master› $ git mv example.html index.html
+@local:~/Sites/slurpee-skate-project ‹master› $ git mv example.html index.html
 
 
 --- Delete Git Tracked File ---
 
 ### Review Local Repository Status ###
-~/Sites/slurpee ‹master› $ git rm index.html
+@local:~/Sites/slurpee-skate-project ‹master› $ git rm index.html
 
 ### Review Local Repository Status ###
-~/Sites/slurpee ‹master*› $ git status
+@local:~/Sites/slurpee-skate-project ‹master*› $ git status
   On branch master
   Your branch is up-to-date with 'origin/master'.
 
