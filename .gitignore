@@ -1,2 +1,4 @@
 *.pem
 id_rsa
+id_rsa.pvt
+private/*

@@ -1,0 +1,91 @@
+#!/bin/bash
+
+Request=$1
+ServerName=$2
+
+### Variables ###
+InfoFile="hosts.aws"
+LineCount=5
+
+declare -A InfoList
+InfoList["InstanceName"]=""
+InfoList["AccessPEM"]=""
+InfoList["UserName"]=""
+InfoList["PublicDNS"]=""
+
+### Functions & Methods ###
+
+info_file() {
+  grep -A ${LineCount} "${ServerName}" "${InfoFile}"
+}
+
+ssh_connection() {
+  local Type=$1
+  case ${Type} in
+    "connect")
+      echo "Connecting to AWS EC2 Instance ${InfoList["InstanceName"]}..."
+      ssh -i ${InfoList["AccessPEM"]} ${InfoList["UserName"]}@${InfoList["PublicDNS"]}
+      ;;
+    "example")
+      echo "ssh -i my-key-pair.pem ec2-user@ec2-198-51-100-1.compute-1.amazonaws.com"
+      ;;
+    "debug")
+      echo "ssh -i ${InfoList["AccessPEM"]} ${InfoList["UserName"]}@${InfoList["PublicDNS"]}"
+      ;;
+    *)
+      echo "Unknown SSH Connection Request."
+      ;;
+  esac
+}
+
+load_ssh_array () {
+  if [ "${Request}" == "debug" ]; then
+    echo "Count of Items in InfoList: ${#InfoList[@]}"
+    echo "Item Keys in InfoList: ${!InfoList[@]}"
+  fi
+  for Key in ${!InfoList[@]}; do
+    InfoList["${Key}"]=`grep -A ${LineCount} "${ServerName}" "${InfoFile}" | grep "${Key}" | awk -F ':' '{ print $2 }' | awk '{ print $1 }'`
+    if [ "${Request}" == "debug" ]; then echo "${Key}: ${InfoList[${Key}]}"; fi
+  done
+}
+
+### Application ###
+
+if [ -z "${Request}" ]; then
+  echo "Request Not Provided. Expecting something like 'connect' or 'debug'..."
+  exit 1
+fi
+
+if [ -z "${ServerName}" ]; then
+  echo "ServerName Not Provided. Expecting something like 'example' or 'explorer'..."
+  exit 1
+fi
+
+if [ "${Request}" == "connect" ] && [ "${ServerName}" == "example" ]; then
+  echo "ServerName 'example' is Not a Real Server! Connection Not Attempted."
+  exit 1
+fi
+
+if [ ! -f "${InfoFile}" ]; then
+  FolderName=$(dirname $(readlink $0))
+  if [ -f "${FolderName}/${InfoFile}" ]; then
+    InfoFile="${FolderName}/${InfoFile}"
+  else
+    echo "[error] InfoFile Not Found!"
+    exit 1
+  fi
+fi
+
+case "${Request}" in
+  "connect"|"debug")
+    load_ssh_array
+    ssh_connection "${Request}"
+    ;;
+  "info")
+    info_file
+    ;;
+  *)
+    echo "Request Unknown. Please use 'connect', 'debug', or 'info'."
+    exit 1
+    ;;
+esac
