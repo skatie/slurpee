@@ -1,0 +1,61 @@
+#!/bin/bash
+
+RepositoryName=$1
+Request=$2
+ServerName=$3
+FileName=$4
+
+### Variables ###
+
+### Functions & Methods ###
+
+get_connection () {
+  Connection=`bash aws-ssh debug ${ServerName} | grep "ssh -i"`
+}
+
+get_repository_status () {
+  echo "Connecting to '${ServerName}' to get '${Request}' of repository '${RepositoryName}'. [ git status ]"
+  ${Connection} "cd ~/repositories/${RepositoryName} && git status" 2> /dev/null | awk '{ print "   " $0 }'
+}
+
+reset_repository () {
+  echo "Connecting to '${ServerName}' to '${Request}' repository '${RepositoryName}'. [ git checkout ]"
+  ${Connection} "cd ~/repositories/${RepositoryName} && git checkout ${FileName}" 2> /dev/null | awk '{ print "   " $0 }'
+}
+
+update_repository () {
+  echo "Connecting to '${ServerName}' to '${Request}' repository '${RepositoryName}'. [ git pull ]"
+  ${Connection} "cd ~/repositories/${RepositoryName} && git pull" 2> /dev/null | awk '{ print "   " $0 }'
+}
+
+if [ -z "${ServerName}" ]; then
+  echo "ServerName Not Provided. Expecting something like 'example' or 'explorer'..."
+  exit 1
+fi
+if [ "${Request}" == "reset" ] && [ -z "${FileName}" ]; then
+  echo "FileName Missing! Required for 'reset' Request."
+  exit 1
+fi
+
+case "${Request}" in
+  "status")
+    get_connection
+    get_repository_status
+    ;;
+  "reset"|"checkout")
+    get_connection
+    reset_repository
+    ;;
+  "update"|"pull")
+    get_connection
+    update_repository
+    ;;
+  "debug")
+    get_connection
+    echo ${Connection}
+    ;;
+  *)
+    echo "Request Unknown. Please use 'connect', 'debug', or 'info'."
+    exit 1
+    ;;
+esac
